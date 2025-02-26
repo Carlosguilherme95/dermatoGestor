@@ -21,5 +21,6 @@ async function connect() {
 connect();
 
 app.listen(port, () => {
-  console.log(`App de exemplo está rodando na porta ${port}`);
+  console.log(`express rodando na porta ${port}`);
 });
+//npm run dev
