@@ -1,5 +1,7 @@
+import { request } from "http";
 import { AppDataSource } from "../data-source/data-source";
-import { User } from "../models/entity";
+import { LancamentosD, LancamentosR, Products, User } from "../models/entity";
+import { error } from "console";
 
 export async function userAdd(
   nome: string,
@@ -27,6 +29,68 @@ export function userIsValid(nome, sobrenome, telefone, email) {
   ) {
     throw new Error(
       "nos campos nome / sobrenome / email utilize letras e no campo telefone utilize números"
+    );
+  }
+}
+export async function receita_lanc(receita: string, valor: number) {
+  receita_lanc_check(receita, valor);
+  const newReceita = new LancamentosR();
+  newReceita.receitaNome = receita;
+  newReceita.valor = valor;
+
+  const receitaAddtoDatabase = AppDataSource.getRepository(LancamentosR);
+  await receitaAddtoDatabase.save(newReceita);
+}
+export async function receita_lanc_check(receita: string, valor: number) {
+  if (typeof receita !== "string" || isNaN(Number(valor))) {
+    throw new Error(
+      "você precisa preencher receita com letras (tipo da receita ex: salário) e valor com números"
+    );
+  }
+}
+export async function despesa_lanc(despesa: string, valor: number) {
+  despesa_lanc_check(despesa, valor);
+  const newDespesa = new LancamentosD();
+  newDespesa.despesaNome = despesa;
+  newDespesa.valor = valor;
+  const despesaAddtodatabase = AppDataSource.getRepository(LancamentosD);
+  await despesaAddtodatabase.save(newDespesa);
+}
+
+export async function despesa_lanc_check(despesa: string, valor: number) {
+  if (typeof despesa !== "string" || isNaN(Number(valor))) {
+    throw new Error(
+      "você precisa preencher despesa com letras (tipo da despesa ex: água / luz) e valor com números"
+    );
+  }
+}
+
+export async function productCreate(
+  prod_name: string,
+  prod_valor: number,
+  prod_classif: string
+) {
+  productValidator(prod_name, prod_valor, prod_classif);
+  const newProduct = new Products();
+  newProduct.prod_name = prod_name;
+  newProduct.prod_valor = prod_valor;
+  newProduct.prod_classif = prod_classif;
+
+  const productAddDatabase = AppDataSource.getRepository(Products);
+  await productAddDatabase.save(newProduct);
+}
+export async function productValidator(
+  prod_name: string,
+  prod_valor: number,
+  prod_classif: string
+) {
+  if (
+    typeof prod_name !== "string" ||
+    isNaN(Number(prod_valor)) ||
+    typeof prod_classif !== "string"
+  ) {
+    throw new Error(
+      "utilize letras para o nome | numeros para valor | letras para classificação"
     );
   }
 }

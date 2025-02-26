@@ -38,3 +38,42 @@ export class Endereco {
   @Column()
   numero: number;
 }
+
+@Entity()
+export class LancamentosR {
+  @PrimaryGeneratedColumn()
+  id_lanc_R!: number;
+
+  @Column()
+  receitaNome!: string;
+
+  @Column()
+  valor!: number;
+}
+
+@Entity()
+export class LancamentosD {
+  @PrimaryGeneratedColumn()
+  id_lanc_D!: number;
+
+  @Column()
+  despesaNome!: string;
+
+  @Column()
+  valor!: number;
+}
+
+@Entity()
+export class Products {
+  @PrimaryGeneratedColumn()
+  id_product!: number;
+
+  @Column()
+  prod_name!: string;
+
+  @Column()
+  prod_valor!: number;
+
+  @Column()
+  prod_classif!: string;
+}
