@@ -7,9 +7,10 @@ import {
   productCreate,
 } from "../service/service";
 import { Request, Response } from "express";
-import { LancamentosD, LancamentosR, User } from "../models/entity";
+import { LancamentosD, LancamentosR, Products, User } from "../models/entity";
 import { error } from "console";
 import { deserialize } from "v8";
+import { get } from "http";
 
 export async function apiAddUser(req: Request, res: Response) {
   try {
@@ -171,11 +172,65 @@ export async function apiChangeDespesa(req: Request, res: Response) {
 /*----------------------PRODUTOS----------------------------------------------*/
 
 export async function apiProductCreate(req: Request, res: Response) {
-  const { prod_name, prod_valor, prod_classif } = req.body;
-  await productCreate(prod_name, prod_valor, prod_classif);
-  if (productCreate === null || productCreate === undefined) {
-    res.status(500).send("não foi possível adicionar o produto");
-  } else {
-    res.status(200).send("Produto adicionado");
+  try {
+    const { prod_name, prod_valor, prod_classif } = req.body;
+    const newProd = await productCreate(prod_name, prod_valor, prod_classif);
+    res.status(200).send("produto adicionado!!");
+  } catch (Error) {
+    res.status(500).send("não foi possível criar o produto");
+  }
+}
+export async function apiGetAllProducts(req: Request, res: Response) {
+  try {
+    const getAllProducts = AppDataSource.getRepository(Products);
+    const getAll = await getAllProducts.find();
+
+    res.status(200).json(getAll);
+  } catch (Error) {
+    res.status(500).send("Não encontramos produtos");
+  }
+}
+export async function apiGetOneProduct(req: Request, res: Response) {
+  const { id_product } = req.params;
+  try {
+    const getOneProduct = AppDataSource.getRepository(Products);
+    const getOne = await getOneProduct.findOne({
+      where: { id_product: Number(id_product) },
+    });
+    res.status(200).json(getOne);
+  } catch (Error) {
+    res.status(500).send("Não foi possível acessar o produto");
+  }
+}
+export async function apiDeleteProduct(req: Request, res: Response) {
+  const { id_product } = req.params;
+  try {
+    const deleteProduct = AppDataSource.getRepository(Products);
+    const deleteProd = await deleteProduct.findOne({
+      where: { id_product: Number(id_product) },
+    });
+    await deleteProduct.delete(deleteProd);
+    res.status(200).send("Produto deletado com sucesso");
+  } catch (Error) {
+    res.status(500).send({ msg: Error });
+  }
+}
+export async function apiModifyProduct(req: Request, res: Response) {
+  const { id_product } = req.params;
+
+  try {
+    const modifProduct = AppDataSource.getRepository(Products);
+    const modif = await modifProduct.findOne({
+      where: { id_product: Number(id_product) },
+    });
+    if (modif) {
+      modif.prod_classif = req.body.prod_classif;
+      modif.prod_name = req.body.prod_name;
+      modif.prod_valor = req.body.valor;
+    }
+    await modifProduct.save(modif);
+    res.status(200).send("Produto modificado com sucesso");
+  } catch (Error) {
+    res.status(500).send("Não foi possível modificar o produto");
   }
 }
