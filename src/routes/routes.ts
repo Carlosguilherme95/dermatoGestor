@@ -13,9 +13,14 @@ import {
   apiDeletedespesa,
   apiChangeDespesa,
   apiProductCreate,
+  apiGetAllProducts,
+  apiGetOneProduct,
+  apiDeleteProduct,
+  apiModifyProduct,
 } from "../controller/controller";
 
 const router = express.Router();
+
 /*------------------------USER---------------------------------*/
 router.post("/", apiAddUser);
 router.get("/", apiGetAllUser);
@@ -33,9 +38,10 @@ router.delete("/despesas/:id_lanc_D", apiDeletedespesa);
 router.put("/despesas/:id_lanc_D", apiChangeDespesa);
 /*----------------------PRODUTOS----------------------------------*/
 router.post("/produtos", apiProductCreate);
-router.get;
-router.get;
-router.delete;
-router.put;
+router.get("/produtos", apiGetAllProducts);
+router.get("/produtos/:id_product", apiGetOneProduct);
+router.delete("/produtos/:id_product", apiDeleteProduct);
+router.put("/produtos/:id_product", apiModifyProduct);
+
 /*----------------------------------------------------------------*/
 export default router;
