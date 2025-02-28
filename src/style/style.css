@@ -1,0 +1,46 @@
+html,
+body {
+  height: 100%;
+  background-color: rgb(159, 106, 209);
+}
+.full-height {
+  height: 100vh; /* 100% da altura da viewport */
+}
+.form-container {
+  background-color: #81a4c9; /* Cor de fundo azul suave */
+  padding: 30px;
+  border-radius: 8px; /* Bordas arredondadas */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Sombra suave */
+  max-width: 400px;
+  width: 100%;
+}
+
+/* Estilo para o botão */
+.btn-primary {
+  background-color: #ff7043; /* Tom de laranja suave */
+  border-color: #ff7043;
+  margin-top: 15px;
+}
+
+.btn-primary:hover {
+  background-color: #ff5722; /* Laranja mais intenso ao passar o mouse */
+  border-color: #ff5722;
+}
+
+/* Ajuste de cor do texto no botão */
+.btn-primary:focus,
+.btn-primary.focus {
+  box-shadow: 0 0 0 0.2rem rgba(255, 112, 67, 0.5);
+}
+/* Ajuste do título */
+h2 {
+  color: #fff; /* Cor do título dentro do formulário */
+}
+.large-icon {
+  width: 80px;
+  height: 80px;
+}
+.icohome {
+  width: 80px;
+  height: 80px;
+}

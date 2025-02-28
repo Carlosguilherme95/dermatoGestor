@@ -17,13 +17,20 @@ import {
   apiGetOneProduct,
   apiDeleteProduct,
   apiModifyProduct,
+  apiGetOneUser,
+  apiDeleteUser,
+  apiModifyUser,
 } from "../controller/controller";
 
 const router = express.Router();
 
 /*------------------------USER---------------------------------*/
-router.post("/", apiAddUser);
-router.get("/", apiGetAllUser);
+router.post("/user", apiAddUser);
+router.get("/user", apiGetAllUser);
+router.get("/user/:id_user", apiGetOneUser);
+router.delete("/user/:id_user", apiDeleteUser);
+router.put("/user/:id_user", apiModifyUser);
+
 /*-----------------------RECEITAS-----------------------------*/
 router.post("/receitas", apiAddReceita);
 router.get("/receitas", apiGetAllReceitas);

@@ -31,6 +31,58 @@ export async function apiGetAllUser(req: Request, res: Response) {
 
   res.status(200).json(users);
 }
+export async function apiGetOneUser(req: Request, res: Response) {
+  const { id_user } = req.params;
+  try {
+    const apiGetOneUser = AppDataSource.getRepository(User);
+    const apiGetone = await apiGetOneUser.findOne({
+      where: { id_user: Number(id_user) },
+    });
+    if (!apiGetone) {
+      res.status(400).send("usuário não foi encontrado");
+    }
+    res.status(200).json(apiGetone);
+  } catch (Error) {
+    res.status(500).send("Ocorreu um erro inesperado");
+  }
+}
+export async function apiDeleteUser(req: Request, res: Response) {
+  const { id_user } = req.params;
+  try {
+    const deleteOneUser = AppDataSource.getRepository(User);
+    const deleteOne = await deleteOneUser.findOne({
+      where: { id_user: Number(id_user) },
+    });
+    if (!deleteOne) {
+      res.status(400).send("não foi possível encontrar o usuário");
+    }
+    await deleteOneUser.delete(deleteOne);
+    res.status(200).send("usuário deletado com sucesso");
+  } catch (Error) {
+    res.status(500).send("ocorreu um erro inesperado");
+  }
+}
+export async function apiModifyUser(req: Request, res: Response) {
+  const { id_user } = req.params;
+  try {
+    const apiModifyUser = AppDataSource.getRepository(User);
+    const apiModify = await apiModifyUser.findOne({
+      where: { id_user: Number(id_user) },
+    });
+    if (apiModify) {
+      apiModify.nome = req.body.nome;
+      apiModify.sobrenome = req.body.sobrenome;
+      apiModify.email = req.body.email;
+      apiModify.telefone = req.body.telefone;
+    } else {
+      res.status(400).send("erro no preenchimento dos dados");
+    }
+    await apiModifyUser.save(apiModify);
+    res.status(200).send("Usuário modificado com sucesso");
+  } catch (Error) {
+    res.status(500).send("Não foi possível modificar o usuário");
+  }
+}
 /*-------------------------------------RECEITAS------------------------------------------*/
 export async function apiAddReceita(req: Request, res: Response) {
   try {
