@@ -1,46 +1,163 @@
+/* ========== ESTILOS GERAIS ========== */
 html,
 body {
   height: 100%;
   background-color: rgb(159, 106, 209);
-}
-.full-height {
-  height: 100vh; /* 100% da altura da viewport */
-}
-.form-container {
-  background-color: #81a4c9; /* Cor de fundo azul suave */
-  padding: 30px;
-  border-radius: 8px; /* Bordas arredondadas */
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Sombra suave */
-  max-width: 400px;
-  width: 100%;
+  font-family: Arial, sans-serif;
+  margin: 0;
 }
 
-/* Estilo para o botão */
-.btn-primary {
-  background-color: #ff7043; /* Tom de laranja suave */
+/* ========== NAVBAR ========== */
+.navbar {
+  background-color: rgb(115, 73, 142) !important;
+  font-family: "Arial", sans-serif;
+  font-weight: 500;
+  font-size: 16px;
+  letter-spacing: 0.5px;
+}
+
+.navbar-light .navbar-nav .nav-link {
+  color: white !important;
+  text-transform: uppercase;
+  padding: 10px 15px;
+  transition: color 0.3s, background-color 0.3s;
+}
+
+.navbar-light .navbar-nav .nav-link:hover {
+  color: #ff7043 !important;
+  background-color: rgba(255, 112, 67, 0.1);
+}
+
+.navbar-light .navbar-nav .nav-link.active {
+  color: #ff7043 !important;
+  background-color: rgba(255, 112, 67, 0.1);
+}
+
+.navbar-brand {
+  font-family: "Arial", sans-serif;
+  font-weight: 700;
+  font-size: 24px;
+  color: white !important;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  transition: color 0.3s;
+}
+
+.navbar-brand:hover {
+  color: #ff7043 !important;
+}
+
+/* Ícone do Menu Mobile */
+.navbar-toggler {
+  border-color: white !important;
+}
+
+.navbar-toggler-icon {
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='rgba(255, 255, 255, 1)' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
+}
+
+@media (max-width: 992px) {
+  .navbar-nav .nav-link {
+    font-size: 14px;
+    padding: 8px 10px;
+  }
+
+  .navbar-toggler-icon {
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='rgba(255, 112, 67, 1)' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
+  }
+}
+
+/* ========== FORMULÁRIO ========== */
+.form-container {
+  background-color: #81a4c9;
+  padding: 30px;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  max-width: 900px;
+  width: 100%;
+  margin: 50px auto 0;
+}
+
+h2 {
+  color: #fff;
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.form-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  justify-content: space-between;
+}
+
+.form-control,
+.form-select {
+  width: 100%;
+  padding: 14px;
+  margin-bottom: 15px;
+  border-radius: 0.25rem;
+  background-color: #fff;
+  border: 1px solid #ccc;
+  color: #333;
+  font-size: 16px;
+  min-width: 200px;
+}
+
+.form-control:focus,
+.form-select:focus {
+  background-color: rgb(100, 63, 121);
+  color: white;
   border-color: #ff7043;
-  margin-top: 15px;
+  outline: none;
+}
+
+label {
+  color: #fff;
+  font-size: 14px;
+  margin-bottom: 8px;
+  display: block;
+}
+
+.btn-primary {
+  background-color: #ff7043;
+  border-color: #ff7043;
+  width: 100%;
+  padding: 14px;
+  border-radius: 0.25rem;
+  font-size: 16px;
+  color: #fff;
+  cursor: pointer;
+  transition: background-color 0.3s;
 }
 
 .btn-primary:hover {
-  background-color: #ff5722; /* Laranja mais intenso ao passar o mouse */
+  background-color: #ff5722;
   border-color: #ff5722;
 }
 
-/* Ajuste de cor do texto no botão */
-.btn-primary:focus,
-.btn-primary.focus {
-  box-shadow: 0 0 0 0.2rem rgba(255, 112, 67, 0.5);
-}
-/* Ajuste do título */
-h2 {
-  color: #fff; /* Cor do título dentro do formulário */
-}
-.large-icon {
-  width: 80px;
-  height: 80px;
-}
-.icohome {
-  width: 80px;
-  height: 80px;
+@media (max-width: 768px) {
+  .form-container {
+    padding: 20px;
+  }
+
+  .btn-primary {
+    padding: 12px;
+    font-size: 14px;
+  }
+
+  .form-control,
+  .form-select {
+    padding: 10px;
+    font-size: 14px;
+  }
+
+  .form-row {
+    flex-direction: column;
+  }
+
+  .form-row .form-control,
+  .form-row .form-select {
+    width: 100%;
+  }
 }
