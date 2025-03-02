@@ -77,3 +77,15 @@ export class Products {
   @Column()
   prod_classif!: string;
 }
+
+@Entity()
+export class Renovdocs {
+  @PrimaryGeneratedColumn()
+  id_doc!: number;
+
+  @Column()
+  documento!: string;
+
+  @Column()
+  data_renov!: number;
+}

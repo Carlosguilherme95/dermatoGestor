@@ -5,9 +5,16 @@ import {
   despesa_lanc,
   despesa_lanc_check,
   productCreate,
+  docCreate,
 } from "../service/service";
 import { Request, Response } from "express";
-import { LancamentosD, LancamentosR, Products, User } from "../models/entity";
+import {
+  LancamentosD,
+  LancamentosR,
+  Products,
+  Renovdocs,
+  User,
+} from "../models/entity";
 import { error } from "console";
 import { deserialize } from "v8";
 import { get } from "http";
@@ -284,5 +291,73 @@ export async function apiModifyProduct(req: Request, res: Response) {
     res.status(200).send("Produto modificado com sucesso");
   } catch (Error) {
     res.status(500).send("Não foi possível modificar o produto");
+  }
+}
+/*--------------DOCUMENTOS--------------------------------------------*/
+export async function apiAddDocument(req: Request, res: Response) {
+  const { documento, data_renov } = req.body;
+  try {
+    const addDoc = await docCreate(documento, data_renov);
+    res.status(201).send("documento criado com sucesso!");
+  } catch (Error) {
+    res.status(500).send("não foi possível criar o documento");
+  }
+}
+export async function apiGetDocument(req: Request, res: Response) {
+  const { id_doc } = req.params;
+  try {
+    const docGet = AppDataSource.getRepository(Renovdocs);
+    const docGetAll = await docGet.find();
+    res.status(200).json(docGetAll);
+  } catch (Error) {
+    res.status(500).send("não encontramos usuários");
+  }
+}
+export async function apiGetoneDocument(req: Request, res: Response) {
+  const { id_doc } = req.params;
+  try {
+    const getOneDocument = AppDataSource.getRepository(Renovdocs);
+    const getOne = await getOneDocument.findOne({
+      where: { id_doc: Number(id_doc) },
+    });
+    if (!getOne) {
+      res.status(400).send("não foi possível achar esse documento");
+    }
+    res.status(200).json(getOne);
+  } catch (Error) {
+    res.status(500).send("error inesperado");
+  }
+}
+export async function apiDeleteDocument(req: Request, res: Response) {
+  const { id_doc } = req.params;
+  try {
+    const getDocument = AppDataSource.getRepository(Renovdocs);
+    const getDoc = await getDocument.findOne({
+      where: { id_doc: Number(id_doc) },
+    });
+    if (!getDoc) {
+      res.status(400).send("não achamos esse número de documento");
+    }
+    await getDocument.delete(getDoc);
+    res.status(200).send("documento deletado");
+  } catch (Error) {
+    res.status(500).send("erro inesperado");
+  }
+}
+export async function apiModify(req: Request, res: Response) {
+  const { id_doc } = req.params;
+  try {
+    const modifDocument = AppDataSource.getRepository(Renovdocs);
+    const modifDoc = await modifDocument.findOne({
+      where: { id_doc: Number(id_doc) },
+    });
+    if (modifDoc) {
+      modifDoc.documento = req.body.documento;
+      modifDoc.data_renov = req.body.data_renov;
+    }
+    await modifDocument.save(modifDoc);
+    res.status(200).send("documento modificado com sucesso");
+  } catch (Error) {
+    res.status(500).send("não foi possível modificar esse documento");
   }
 }
