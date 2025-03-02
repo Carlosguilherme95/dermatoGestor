@@ -1,6 +1,12 @@
 import { request } from "http";
 import { AppDataSource } from "../data-source/data-source";
-import { LancamentosD, LancamentosR, Products, User } from "../models/entity";
+import {
+  LancamentosD,
+  LancamentosR,
+  Products,
+  Renovdocs,
+  User,
+} from "../models/entity";
 import { error } from "console";
 
 export async function userAdd(
@@ -91,6 +97,23 @@ export async function productValidator(
   ) {
     throw new Error(
       "utilize letras para o nome | numeros para valor | letras para classificação"
+    );
+  }
+}
+
+export async function docCreate(documento: string, data_renov: number) {
+  docvalidation(documento, data_renov);
+  const newDocument = new Renovdocs();
+  newDocument.documento = documento;
+  newDocument.data_renov = data_renov;
+
+  const docoumentdatabase = AppDataSource.getRepository(Renovdocs);
+  await docoumentdatabase.save(newDocument);
+}
+export async function docvalidation(documento: string, data_renov: Number) {
+  if (typeof documento !== "string" || isNaN(Number(data_renov))) {
+    throw new Error(
+      "você deve preencher o nome do documento com letras e a data com números"
     );
   }
 }

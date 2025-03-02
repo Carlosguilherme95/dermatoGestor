@@ -20,6 +20,11 @@ import {
   apiGetOneUser,
   apiDeleteUser,
   apiModifyUser,
+  apiAddDocument,
+  apiGetDocument,
+  apiGetoneDocument,
+  apiDeleteDocument,
+  apiModify,
 } from "../controller/controller";
 
 const router = express.Router();
@@ -50,5 +55,11 @@ router.get("/produtos/:id_product", apiGetOneProduct);
 router.delete("/produtos/:id_product", apiDeleteProduct);
 router.put("/produtos/:id_product", apiModifyProduct);
 
-/*----------------------------------------------------------------*/
+/*---------------------CRIANDO DOCUMENTOS/RENOV----------------------*/
+router.post("/documento", apiAddDocument);
+router.get("/documento", apiGetDocument);
+router.get("/documento/:id_doc", apiGetoneDocument);
+router.delete("/documento/:id_doc", apiDeleteDocument);
+router.put("/documento/:id_doc", apiModify);
+
 export default router;
