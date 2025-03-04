@@ -1,10 +1,8 @@
 import express from "express";
 import {
   apiAddReceita,
-  apiAddUser,
   apiDeleteReceita,
   apiGetAllReceitas,
-  apiGetAllUser,
   apiGetReceitaByid,
   apiChangeReceita,
   apiAdDespesa,
@@ -17,27 +15,26 @@ import {
   apiGetOneProduct,
   apiDeleteProduct,
   apiModifyProduct,
-  apiGetOneUser,
-  apiDeleteUser,
-  apiModifyUser,
   apiAddDocument,
   apiGetDocument,
   apiGetoneDocument,
   apiDeleteDocument,
   apiModify,
   addUUser,
+  getOneUser,
+  deleteUser,
+  getAllUser,
+  modifyUser,
 } from "../controller/controller";
 
 const router = express.Router();
 
-router.post("/userr", addUUser);
-
 /*------------------------USER---------------------------------*/
-router.post("/user", apiAddUser);
-router.get("/user", apiGetAllUser);
-router.get("/user/:id_user", apiGetOneUser);
-router.delete("/user/:id_user", apiDeleteUser);
-router.put("/user/:id_user", apiModifyUser);
+router.post("/user", addUUser);
+router.get("/user/:id_user", getOneUser);
+router.get("/user", getAllUser);
+router.delete("/user/:id_user", deleteUser);
+router.put("/user/:id_user", modifyUser);
 
 /*-----------------------RECEITAS-----------------------------*/
 router.post("/receitas", apiAddReceita);
