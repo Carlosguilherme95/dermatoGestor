@@ -1,13 +1,16 @@
+import { Axios } from "axios";
 import { request } from "http";
 import { AppDataSource } from "../data-source/data-source";
 import {
+  Endereco,
   LancamentosD,
   LancamentosR,
   Products,
   Renovdocs,
   User,
+  UUser,
 } from "../models/entity";
-import { error } from "console";
+import axios from "axios";
 
 export async function userAdd(
   nome: string,
@@ -116,4 +119,32 @@ export async function docvalidation(documento: string, data_renov: Number) {
       "você deve preencher o nome do documento com letras e a data com números"
     );
   }
+}
+
+export async function UUUserFrontEnd(
+  nome: string,
+  sobrenome: string,
+  email: string,
+  telefone: string,
+  cep: string,
+  logradouro: string,
+  bairro: string,
+  cidade: string,
+  estado: string,
+  unidade: string
+) {
+  const userCreate = new UUser();
+  userCreate.nome = nome;
+  userCreate.sobrenome = sobrenome;
+  userCreate.email = email;
+  userCreate.telefone = telefone;
+  userCreate.cep = cep;
+  userCreate.logradouro = logradouro;
+  userCreate.bairro = bairro;
+  userCreate.cidade = cidade;
+  userCreate.estado = estado;
+  userCreate.unidade = unidade;
+
+  const userDbConect = AppDataSource.getRepository(UUser);
+  await userDbConect.save(userCreate);
 }
