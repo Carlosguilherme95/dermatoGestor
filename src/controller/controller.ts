@@ -6,6 +6,7 @@ import {
   despesa_lanc_check,
   productCreate,
   docCreate,
+  UUUserFrontEnd,
 } from "../service/service";
 import { Request, Response } from "express";
 import {
@@ -15,10 +16,36 @@ import {
   Renovdocs,
   User,
 } from "../models/entity";
-import { error } from "console";
-import { deserialize } from "v8";
-import { get } from "http";
 
+export async function addUUser(req: Request, res: Response) {
+  const {
+    nome,
+    sobrenome,
+    email,
+    telefone,
+    cep,
+    logradouro,
+    bairro,
+    cidade,
+    estado,
+    unidade,
+  } = req.body;
+
+  await UUUserFrontEnd(
+    nome,
+    sobrenome,
+    email,
+    telefone,
+    cep,
+    logradouro,
+    bairro,
+    cidade,
+    estado,
+    unidade
+  );
+  res.status(201).send("usuário adicionaado com sucesso");
+}
+/*--------------------------------------------------------------------*/
 export async function apiAddUser(req: Request, res: Response) {
   try {
     const { nome, sobrenome, telefone, email } = req.body;

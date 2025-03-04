@@ -21,10 +21,13 @@ export class User {
 @Entity()
 export class Endereco {
   @PrimaryGeneratedColumn()
-  id_endereco!: number;
+  id: number;
 
   @Column()
-  rua: string;
+  cep: string;
+
+  @Column()
+  logradouro: string;
 
   @Column()
   bairro: string;
@@ -33,10 +36,10 @@ export class Endereco {
   cidade: string;
 
   @Column()
-  estado: number;
+  uf: string;
 
-  @Column()
-  numero: number;
+  @Column({ nullable: true })
+  unidade: string;
 }
 
 @Entity()
@@ -88,4 +91,40 @@ export class Renovdocs {
 
   @Column()
   data_renov!: number;
+}
+
+@Entity()
+export class UUser {
+  @PrimaryGeneratedColumn()
+  id: number;
+
+  @Column()
+  nome: string;
+
+  @Column()
+  sobrenome: string;
+
+  @Column()
+  email: string;
+
+  @Column()
+  telefone: string;
+
+  @Column()
+  cep: string;
+
+  @Column()
+  logradouro: string;
+
+  @Column()
+  bairro: string;
+
+  @Column()
+  cidade: string;
+
+  @Column()
+  estado: string;
+
+  @Column({ nullable: true }) // Pode ser opcional
+  unidade: string;
 }

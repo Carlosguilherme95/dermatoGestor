@@ -25,9 +25,12 @@ import {
   apiGetoneDocument,
   apiDeleteDocument,
   apiModify,
+  addUUser,
 } from "../controller/controller";
 
 const router = express.Router();
+
+router.post("/userr", addUUser);
 
 /*------------------------USER---------------------------------*/
 router.post("/user", apiAddUser);
