@@ -1,9 +1,7 @@
 import { AppDataSource } from "../data-source/data-source";
 import {
-  userAdd,
   receita_lanc,
   despesa_lanc,
-  despesa_lanc_check,
   productCreate,
   docCreate,
   UUUserFrontEnd,
@@ -16,7 +14,7 @@ import {
   Renovdocs,
   User,
 } from "../models/entity";
-
+/*--------------------------------USER--------------------------------*/
 export async function addUUser(req: Request, res: Response) {
   const {
     nome,
@@ -45,83 +43,72 @@ export async function addUUser(req: Request, res: Response) {
   );
   res.status(201).send("usuário adicionaado com sucesso");
 }
-/*--------------------------------------------------------------------*/
-export async function apiAddUser(req: Request, res: Response) {
-  try {
-    const { nome, sobrenome, telefone, email } = req.body;
-
-    await userAdd(nome, sobrenome, telefone, email);
-
-    res.status(201).send("Usuário adicionado com sucesso!");
-  } catch (Error) {
-    console.error(Error);
-    res.status(500).send({ msg: Error.message });
-  }
-}
-
-export async function apiGetAllUser(req: Request, res: Response) {
-  const getAllUser = AppDataSource.getRepository(User);
-  const users = await getAllUser.find();
-
-  res.status(200).json(users);
-}
-export async function apiGetOneUser(req: Request, res: Response) {
+export async function modifyUser(req: Request, res: Response) {
   const { id_user } = req.params;
   try {
-    const apiGetOneUser = AppDataSource.getRepository(User);
-    const apiGetone = await apiGetOneUser.findOne({
+    const userRepository = AppDataSource.getRepository(User);
+    const userRepo = await userRepository.findOne({
       where: { id_user: Number(id_user) },
     });
-    if (!apiGetone) {
-      res.status(400).send("usuário não foi encontrado");
+    if (userRepo) {
+      userRepo.nome = req.body.nome;
+      userRepo.sobrenome = req.body.sobrenome;
+      userRepo.email = req.body.email;
+      userRepo.telefone = req.body.telefone;
+      userRepo.cep = req.body.cep;
+      userRepo.logradouro = req.body.logradouro;
+      userRepo.bairro = req.body.bairro;
+      userRepo.cidade = req.body.cidade;
+      userRepo.estado = req.body.estado;
+      userRepo.unidade = req.body.unidade;
     }
-    res.status(200).json(apiGetone);
+    await userRepository.save(userRepo);
+    res.status(200).send("usuário modificado");
   } catch (Error) {
-    res.status(500).send("Ocorreu um erro inesperado");
+    res.status(400).send("não foi possível modificar o usuário");
   }
 }
-export async function apiDeleteUser(req: Request, res: Response) {
+export async function getAllUser(req: Request, res: Response) {
+  const userRepository = AppDataSource.getRepository(User);
+  const userRepo = await userRepository.find();
+  await res.status(200).json(userRepo);
+}
+export async function getOneUser(req: Request, res: Response) {
   const { id_user } = req.params;
   try {
-    const deleteOneUser = AppDataSource.getRepository(User);
-    const deleteOne = await deleteOneUser.findOne({
+    const userRepository = AppDataSource.getRepository(User);
+    const userRepo = await userRepository.findOne({
       where: { id_user: Number(id_user) },
     });
-    if (!deleteOne) {
-      res.status(400).send("não foi possível encontrar o usuário");
+    if (!userRepo) {
+      res.status(400).send("usuário não encontrado na base de dados");
     }
-    await deleteOneUser.delete(deleteOne);
+    res.status(200).json(userRepo);
+  } catch (Error) {
+    res.status(500).send("Erro inesperado");
+  }
+}
+export async function deleteUser(req: Request, res: Response) {
+  const { id_user } = req.params;
+  try {
+    const userRepository = AppDataSource.getRepository(User);
+    const userRepo = await userRepository.findOne({
+      where: { id_user: Number(id_user) },
+    });
+    if (!userRepo) {
+      res.status(400).send("usuário não encontrado");
+    }
+    await userRepository.remove(userRepo);
     res.status(200).send("usuário deletado com sucesso");
   } catch (Error) {
-    res.status(500).send("ocorreu um erro inesperado");
-  }
-}
-export async function apiModifyUser(req: Request, res: Response) {
-  const { id_user } = req.params;
-  try {
-    const apiModifyUser = AppDataSource.getRepository(User);
-    const apiModify = await apiModifyUser.findOne({
-      where: { id_user: Number(id_user) },
-    });
-    if (apiModify) {
-      apiModify.nome = req.body.nome;
-      apiModify.sobrenome = req.body.sobrenome;
-      apiModify.email = req.body.email;
-      apiModify.telefone = req.body.telefone;
-    } else {
-      res.status(400).send("erro no preenchimento dos dados");
-    }
-    await apiModifyUser.save(apiModify);
-    res.status(200).send("Usuário modificado com sucesso");
-  } catch (Error) {
-    res.status(500).send("Não foi possível modificar o usuário");
+    res.status(500).send("erro inesperado");
   }
 }
 /*-------------------------------------RECEITAS------------------------------------------*/
 export async function apiAddReceita(req: Request, res: Response) {
   try {
-    const { receita, valor } = req.body;
-    await receita_lanc(receita, valor);
+    const { receitaNome, categoria, valor, datalanc, desc } = req.body;
+    await receita_lanc(receitaNome, categoria, valor, datalanc, desc);
     res.status(201).send("Receita adicionada com sucesso!");
   } catch (Error) {
     res.status(500).send({ msg: Error.message });
@@ -186,9 +173,9 @@ export async function apiChangeReceita(req: Request, res: Response) {
 /*-----------------------DESPESAS------------------------------------------*/
 export async function apiAdDespesa(req: Request, res: Response) {
   try {
-    const { despesa, valor } = req.body;
-    await despesa_lanc(despesa, valor);
-    res.status(200).send("Despesa adicionada!");
+    const { categoria, despesaNome, valor, datalanc, desc } = req.body;
+    await despesa_lanc(categoria, despesaNome, valor, datalanc, desc);
+    res.status(201).send("Despesa adicionada!");
   } catch (Error) {
     console.log(Error);
     res.status(500).send({ msg: "Não foi possível adicionar a despesa" });

@@ -2,76 +2,47 @@ import { Axios } from "axios";
 import { request } from "http";
 import { AppDataSource } from "../data-source/data-source";
 import {
-  Endereco,
   LancamentosD,
   LancamentosR,
   Products,
   Renovdocs,
   User,
-  UUser,
 } from "../models/entity";
-import axios from "axios";
 
-export async function userAdd(
-  nome: string,
-  sobrenome: string,
-  telefone: number,
-  email: string
+export async function receita_lanc(
+  receitaNome,
+  categoria,
+  valor,
+  datalanc,
+  desc
 ) {
-  userIsValid(nome, sobrenome, telefone, email); // valida os dados passados pelo usuário
-  const newUser = new User(); // cria novo usuário
-  newUser.nome = nome;
-  newUser.sobrenome = sobrenome;
-  newUser.telefone = telefone;
-  newUser.email = email;
-
-  const userAddDatabase = AppDataSource.getRepository(User); // nessa çomja eu adiciono no banco de dados
-  await userAddDatabase.save(newUser); // nessa linha eu garanto que foi salvo no banco de dados
-}
-// função que faz validação dos dados passados
-export function userIsValid(nome, sobrenome, telefone, email) {
-  if (
-    typeof nome !== "string" ||
-    typeof sobrenome !== "string" ||
-    isNaN(Number(telefone)) ||
-    typeof email !== "string"
-  ) {
-    throw new Error(
-      "nos campos nome / sobrenome / email utilize letras e no campo telefone utilize números"
-    );
-  }
-}
-export async function receita_lanc(receita: string, valor: number) {
-  receita_lanc_check(receita, valor);
   const newReceita = new LancamentosR();
-  newReceita.receitaNome = receita;
+  newReceita.receitaNome = receitaNome;
+  newReceita.categoria = categoria;
   newReceita.valor = valor;
+  newReceita.datalanc = datalanc;
+  newReceita.desc = desc;
 
   const receitaAddtoDatabase = AppDataSource.getRepository(LancamentosR);
   await receitaAddtoDatabase.save(newReceita);
 }
-export async function receita_lanc_check(receita: string, valor: number) {
-  if (typeof receita !== "string" || isNaN(Number(valor))) {
-    throw new Error(
-      "você precisa preencher receita com letras (tipo da receita ex: salário) e valor com números"
-    );
-  }
-}
-export async function despesa_lanc(despesa: string, valor: number) {
-  despesa_lanc_check(despesa, valor);
+
+export async function despesa_lanc(
+  categoria,
+  despesaNome,
+  valor,
+  datalanc,
+  desc
+) {
   const newDespesa = new LancamentosD();
-  newDespesa.despesaNome = despesa;
+  newDespesa.categoria = categoria;
+  newDespesa.despesaNome = despesaNome;
   newDespesa.valor = valor;
+  newDespesa.datalanc = datalanc;
+  newDespesa.desc = desc;
+
   const despesaAddtodatabase = AppDataSource.getRepository(LancamentosD);
   await despesaAddtodatabase.save(newDespesa);
-}
-
-export async function despesa_lanc_check(despesa: string, valor: number) {
-  if (typeof despesa !== "string" || isNaN(Number(valor))) {
-    throw new Error(
-      "você precisa preencher despesa com letras (tipo da despesa ex: água / luz) e valor com números"
-    );
-  }
 }
 
 export async function productCreate(
@@ -133,7 +104,19 @@ export async function UUUserFrontEnd(
   estado: string,
   unidade: string
 ) {
-  const userCreate = new UUser();
+  userValidadetion(
+    nome,
+    sobrenome,
+    email,
+    telefone,
+    cep,
+    logradouro,
+    bairro,
+    cidade,
+    estado,
+    unidade
+  );
+  const userCreate = new User();
   userCreate.nome = nome;
   userCreate.sobrenome = sobrenome;
   userCreate.email = email;
@@ -145,6 +128,34 @@ export async function UUUserFrontEnd(
   userCreate.estado = estado;
   userCreate.unidade = unidade;
 
-  const userDbConect = AppDataSource.getRepository(UUser);
+  const userDbConect = AppDataSource.getRepository(User);
   await userDbConect.save(userCreate);
+}
+
+export async function userValidadetion(
+  nome: string,
+  sobrenome: string,
+  email: string,
+  telefone: string,
+  cep: string,
+  logradouro: string,
+  bairro: string,
+  cidade: string,
+  estado: string,
+  unidade: string
+) {
+  if (
+    typeof nome !== "string" ||
+    typeof sobrenome !== "string" ||
+    typeof email !== "string" ||
+    typeof telefone !== "string" ||
+    typeof cep !== "string" ||
+    typeof logradouro !== "string" ||
+    typeof bairro !== "string" ||
+    typeof cidade !== "string" ||
+    typeof estado !== "string" ||
+    typeof unidade !== "string"
+  ) {
+    throw new Error("dado inválido");
+  }
 }

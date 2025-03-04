@@ -1,48 +1,6 @@
 import { Entity, PrimaryGeneratedColumn, Column } from "typeorm";
 
 @Entity()
-export class User {
-  @PrimaryGeneratedColumn()
-  id_user!: number;
-
-  @Column()
-  nome: string;
-
-  @Column()
-  sobrenome: string;
-
-  @Column()
-  email: string;
-
-  @Column()
-  telefone: number;
-}
-
-@Entity()
-export class Endereco {
-  @PrimaryGeneratedColumn()
-  id: number;
-
-  @Column()
-  cep: string;
-
-  @Column()
-  logradouro: string;
-
-  @Column()
-  bairro: string;
-
-  @Column()
-  cidade: string;
-
-  @Column()
-  uf: string;
-
-  @Column({ nullable: true })
-  unidade: string;
-}
-
-@Entity()
 export class LancamentosR {
   @PrimaryGeneratedColumn()
   id_lanc_R!: number;
@@ -51,7 +9,16 @@ export class LancamentosR {
   receitaNome!: string;
 
   @Column()
-  valor!: number;
+  categoria!: string;
+
+  @Column()
+  valor!: string;
+
+  @Column()
+  datalanc!: string;
+
+  @Column()
+  desc!: string;
 }
 
 @Entity()
@@ -60,10 +27,19 @@ export class LancamentosD {
   id_lanc_D!: number;
 
   @Column()
+  categoria: string;
+
+  @Column()
   despesaNome!: string;
 
   @Column()
-  valor!: number;
+  valor!: string;
+
+  @Column()
+  datalanc: string;
+
+  @Column()
+  desc: string;
 }
 
 @Entity()
@@ -94,9 +70,9 @@ export class Renovdocs {
 }
 
 @Entity()
-export class UUser {
+export class User {
   @PrimaryGeneratedColumn()
-  id: number;
+  id_user!: number;
 
   @Column()
   nome: string;
