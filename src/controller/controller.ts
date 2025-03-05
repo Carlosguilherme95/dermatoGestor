@@ -5,9 +5,11 @@ import {
   productCreate,
   docCreate,
   UUUserFrontEnd,
+  createAtivos,
 } from "../service/service";
 import { Request, Response } from "express";
 import {
+  Ativos,
   LancamentosD,
   LancamentosR,
   Products,
@@ -373,5 +375,70 @@ export async function apiModify(req: Request, res: Response) {
     res.status(200).send("documento modificado com sucesso");
   } catch (Error) {
     res.status(500).send("não foi possível modificar esse documento");
+  }
+}
+export async function ativosPost(req: Request, res: Response) {
+  const { ativo_nome, ativo_valor } = req.body;
+  const criarAtivo = createAtivos(ativo_nome, ativo_valor);
+  if (!createAtivos) {
+    res.status(400).send("não foi possível cadastrar o ativo");
+  }
+  res.status(201).send("ativo adicionado");
+}
+export async function ativosGetAll(req: Request, res: Response) {
+  const getAllAtivos = AppDataSource.getRepository(Ativos);
+  const getAll = await getAllAtivos.find();
+  if (!getAll) {
+    res.status(400).send("você não possui ativos");
+  }
+  res.status(200).json(getAll);
+}
+export async function ativosGetOne(req: Request, res: Response) {
+  const { id_ativos } = req.params;
+  try {
+    const ativosRepository = AppDataSource.getRepository(Ativos);
+    const ativoRepo = await ativosRepository.findOne({
+      where: { id_ativos: Number(id_ativos) },
+    });
+    if (!ativoRepo) {
+      res.status(400).send("ativo não encontrado");
+    }
+    res.status(200).json(ativoRepo);
+  } catch (Error) {
+    res.status(500).send("erro inesperado");
+  }
+}
+export async function ativosDelete(req: Request, res: Response) {
+  const { id_ativos } = req.params;
+  try {
+    const ativosRepository = AppDataSource.getRepository(Ativos);
+    const ativoRepository = await ativosRepository.findOne({
+      where: { id_ativos: Number(id_ativos) },
+    });
+    if (!ativoRepository) {
+      res.status(400).send("ativo não encontrado");
+    }
+    await ativosRepository.delete(ativoRepository);
+    res.status(200).send("ativo deletado com sucesso");
+  } catch (Error) {
+    res.status(500).send("erro inesperado");
+  }
+}
+
+export async function ativosModify(req: Request, res: Response) {
+  const { id_ativos } = req.params;
+  try {
+    const ativoRepository = AppDataSource.getRepository(Ativos);
+    const ativoRepo = await ativoRepository.findOne({
+      where: { id_ativos: Number(id_ativos) },
+    });
+    if (ativoRepo) {
+      ativoRepo.ativo_nome = req.body.ativo_nome;
+      ativoRepo.ativo_valor = req.body.ativo_valor;
+    }
+    await ativoRepository.save(ativoRepo);
+    res.status(200).send("ativo modificado com sucesso");
+  } catch (Error) {
+    res.status(400).send("não foi possível modificar o ativo");
   }
 }

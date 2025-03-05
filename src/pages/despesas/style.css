@@ -123,7 +123,6 @@ label {
   display: block;
 }
 
-/* Botões com a classe .btn-primary */
 .btn-primary {
   background-color: #ff7043;
   border-color: #ff7043;
@@ -134,12 +133,6 @@ label {
   color: #fff;
   cursor: pointer;
   transition: background-color 0.3s;
-  margin-bottom: 15px; /* Adiciona o espaçamento entre os botões */
-}
-
-/* Caso haja outros botões que você deseja espaçar */
-.d-flex .btn {
-  margin-bottom: 15px; /* Aplica o mesmo espaçamento entre os botões dentro da div d-flex */
 }
 
 .btn-primary:hover {
@@ -171,4 +164,28 @@ label {
   .form-row .form-select {
     width: 100%;
   }
+}
+
+/* ========== BOTÕES AJUSTADOS ========== */
+
+/* Ajusta o botão "Cadastrar Despesa" e "Voltar para o Home" para ficarem com a mesma largura */
+.d-flex .btn {
+  width: 48%; /* Deixa ambos os botões com largura de 48% */
+}
+
+/* Ajuste do botão "Voltar para o Home" */
+.d-flex .btn-secondary {
+  margin-top: 0; /* Remove qualquer margem extra para alinha-los */
+}
+
+/* Ajuste do botão "Consultar Despesas" */
+.btn-secondary.w-100 {
+  width: 100%; /* Garantir que o botão ocupe toda a largura */
+  margin-top: 20px; /* Adiciona um espaçamento maior acima do botão */
+  margin-bottom: 20px; /* Adiciona um espaçamento maior abaixo do botão */
+}
+/* Ajuste no botão "Consultar Despesas" */
+.btn-primary.w-100 {
+  margin-top: 20px; /* Adiciona mais espaçamento acima do botão */
+  margin-bottom: 20px; /* Adiciona mais espaçamento abaixo do botão */
 }
