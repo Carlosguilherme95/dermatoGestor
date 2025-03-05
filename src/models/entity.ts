@@ -104,3 +104,15 @@ export class User {
   @Column({ nullable: true }) // Pode ser opcional
   unidade: string;
 }
+
+@Entity()
+export class Ativos {
+  @PrimaryGeneratedColumn()
+  id_ativos!: number;
+
+  @Column()
+  ativo_nome: string;
+
+  @Column()
+  ativo_valor: number;
+}

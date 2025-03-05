@@ -7,9 +7,6 @@ import {
   apiChangeReceita,
   apiAdDespesa,
   apiGetAlldespesas,
-  apiGetOnedespesa,
-  apiDeletedespesa,
-  apiChangeDespesa,
   apiProductCreate,
   apiGetAllProducts,
   apiGetOneProduct,
@@ -25,6 +22,12 @@ import {
   deleteUser,
   getAllUser,
   modifyUser,
+  apiDeletedespesa,
+  ativosPost,
+  ativosGetAll,
+  ativosGetOne,
+  ativosDelete,
+  ativosModify,
 } from "../controller/controller";
 
 const router = express.Router();
@@ -45,9 +48,7 @@ router.put("/receitas/:id_lanc_R", apiChangeReceita);
 /*-----------------------DESPESAS-----------------------------*/
 router.post("/despesas", apiAdDespesa);
 router.get("/despesas", apiGetAlldespesas);
-router.get("/despesas/:id_lanc_D", apiGetOnedespesa);
 router.delete("/despesas/:id_lanc_D", apiDeletedespesa);
-router.put("/despesas/:id_lanc_D", apiChangeDespesa);
 /*----------------------PRODUTOS----------------------------------*/
 router.post("/produtos", apiProductCreate);
 router.get("/produtos", apiGetAllProducts);
@@ -61,5 +62,10 @@ router.get("/documento", apiGetDocument);
 router.get("/documento/:id_doc", apiGetoneDocument);
 router.delete("/documento/:id_doc", apiDeleteDocument);
 router.put("/documento/:id_doc", apiModify);
-
+/*--------------------CRIANDO ATIVOS-----------------------------------*/
+router.post("/ativos", ativosPost);
+router.get("/ativos", ativosGetAll);
+router.get("/ativos/:id_ativos", ativosGetOne);
+router.delete("/ativos/:id_ativos", ativosDelete);
+router.put("/ativos/:id_ativos", ativosModify);
 export default router;

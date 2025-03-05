@@ -2,6 +2,7 @@ import { Axios } from "axios";
 import { request } from "http";
 import { AppDataSource } from "../data-source/data-source";
 import {
+  Ativos,
   LancamentosD,
   LancamentosR,
   Products,
@@ -158,4 +159,13 @@ export async function userValidadetion(
   ) {
     throw new Error("dado inválido");
   }
+}
+
+export async function createAtivos(ativo_nome, ativo_valor) {
+  const newAtivo = new Ativos();
+  newAtivo.ativo_nome = ativo_nome;
+  newAtivo.ativo_valor = ativo_valor;
+
+  const ativoRepository = AppDataSource.getRepository(Ativos);
+  await ativoRepository.save(newAtivo);
 }
